@@ -27,11 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto save(InsertStudentDto studentDto) {
-        Student student = Student.builder()
-                .name(studentDto.getName())
-                .surname(studentDto.getSurname())
-                .email(studentDto.getEmail())
-                .build();
+        Student student = objectMapper.convertValue(studentDto, Student.class);
         studentRepository.save(student);
 
         return objectMapper.convertValue(student, StudentDto.class);
@@ -39,13 +35,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDto> findAll() {
-        return studentRepository.findAll().stream().map(student -> StudentDto.builder()
-                .id(student.getId())
-                .name(student.getName())
-                .surname(student.getSurname())
-                .email(student.getEmail())
-                .build())
-                .toList();
+        return studentRepository.findAll().stream().map(student -> objectMapper.convertValue(student, StudentDto.class)).toList();
     }
 
     @Override
