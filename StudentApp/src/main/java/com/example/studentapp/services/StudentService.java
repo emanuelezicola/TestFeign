@@ -14,6 +14,8 @@ public interface StudentService {
 
     List<StudentDto> findAll();
 
-    StudentDto patch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException;
+    StudentDto patchJsonPatch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException;
+
+    StudentDto patch(StudentDto studentDto) throws JsonPatchException, JsonProcessingException;
 
 }

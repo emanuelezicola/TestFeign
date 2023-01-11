@@ -33,14 +33,26 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findAll());
     }
 
-    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id, @RequestBody JsonPatch patch) {
+    @PatchMapping(path = "/{id}/jsonPatch", consumes = "application/json-patch+json")
+    public ResponseEntity<StudentDto> updateStudentJsonPatch(@PathVariable Long id, @RequestBody JsonPatch patch) {
         try {
-            return ResponseEntity.ok(studentService.patch(id, patch));
+            return ResponseEntity.ok(studentService.patchJsonPatch(id, patch));
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @PatchMapping
+    public ResponseEntity<StudentDto> patchStudent(@RequestBody StudentDto studentDto) {
+        try {
+            return ResponseEntity.ok(studentService.patch(studentDto));
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

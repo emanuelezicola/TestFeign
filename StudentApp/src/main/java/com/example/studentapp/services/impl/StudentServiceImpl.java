@@ -38,8 +38,25 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll().stream().map(student -> objectMapper.convertValue(student, StudentDto.class)).toList();
     }
 
+
     @Override
-    public StudentDto patch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException {
+    public StudentDto patch(StudentDto studentDto) throws JsonPatchException, JsonProcessingException {
+        Student studentToPatch = studentRepository.findById(studentDto.getId()).orElseThrow(EntityNotFoundException::new);
+        if(studentDto.getEmail()!=null) {
+            studentToPatch.setEmail(studentDto.getEmail());
+        }
+        if(studentDto.getSurname()!=null) {
+            studentToPatch.setSurname(studentDto.getSurname());
+        }
+        if(studentDto.getName()!=null) {
+            studentToPatch.setName(studentDto.getName());
+        }
+        studentRepository.save(studentToPatch);
+        return objectMapper.convertValue(studentToPatch, StudentDto.class);
+    }
+
+    @Override
+    public StudentDto patchJsonPatch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException {
         Student student = studentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Student studentPatched = applyPatchToStudent(patch, student);
         studentRepository.save(studentPatched);
