@@ -9,13 +9,10 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import java.util.List;
 
 public interface StudentService {
-
-    StudentDto save(InsertStudentDto studentDto);
-
+    StudentDto findById(Long id);
     List<StudentDto> findAll();
-
+    StudentDto save(InsertStudentDto studentDto);
     StudentDto patchJsonPatch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException;
-
     StudentDto patch(StudentDto studentDto) throws JsonPatchException, JsonProcessingException;
-
+    void delete(Long id);
 }

@@ -59,8 +59,12 @@ class FeignClientTest {
         System.out.println(studentDtoPatched);
     }
 
-    @AfterEach
-    void tearDown() {
-
+    @Test
+    void delete() {
+        Assertions.assertNotNull(student);
+        studentClient.delete(student.getId());
+        StudentDto studentDeleted = studentClient.findById(student.getId());
+        Assertions.assertNull(studentDeleted);
     }
+
 }

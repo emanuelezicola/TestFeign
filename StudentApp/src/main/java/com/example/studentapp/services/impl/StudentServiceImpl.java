@@ -26,11 +26,9 @@ public class StudentServiceImpl implements StudentService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public StudentDto save(InsertStudentDto studentDto) {
-        Student student = objectMapper.convertValue(studentDto, Student.class);
-        studentRepository.save(student);
-
-        return objectMapper.convertValue(student, StudentDto.class);
+    public StudentDto findById(Long id) {
+        Student student = studentRepository.findById(id).orElse(null);
+        return student!=null ? objectMapper.convertValue(student, StudentDto.class) : null;
     }
 
     @Override
@@ -38,6 +36,13 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll().stream().map(student -> objectMapper.convertValue(student, StudentDto.class)).toList();
     }
 
+    @Override
+    public StudentDto save(InsertStudentDto studentDto) {
+        Student student = objectMapper.convertValue(studentDto, Student.class);
+        studentRepository.save(student);
+
+        return objectMapper.convertValue(student, StudentDto.class);
+    }
 
     @Override
     public StudentDto patch(StudentDto studentDto) throws JsonPatchException, JsonProcessingException {
@@ -53,6 +58,11 @@ public class StudentServiceImpl implements StudentService {
         }
         studentRepository.save(studentToPatch);
         return objectMapper.convertValue(studentToPatch, StudentDto.class);
+    }
+
+    @Override
+    public void delete(Long id) {
+        studentRepository.deleteById(id);
     }
 
     @Override

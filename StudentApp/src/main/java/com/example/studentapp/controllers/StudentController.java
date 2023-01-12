@@ -28,6 +28,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.save(studentDto));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.findById(id));
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<StudentDto>> findAll() {
         return ResponseEntity.ok(studentService.findAll());
@@ -53,6 +58,11 @@ public class StudentController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        studentService.delete(id);
     }
 
 }
