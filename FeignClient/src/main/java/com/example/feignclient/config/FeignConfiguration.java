@@ -1,5 +1,6 @@
 package com.example.feignclient.config;
 
+/*
 import feign.okhttp.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,3 +13,4 @@ public class FeignConfiguration {
         return new OkHttpClient();
     } 
 }
+*/

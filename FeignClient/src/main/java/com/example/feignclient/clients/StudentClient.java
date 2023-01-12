@@ -10,20 +10,17 @@ import java.util.List;
 @FeignClient(name="student-client", url="localhost:8000/students")
 public interface StudentClient {
 
+    @PatchMapping
+    StudentDto patch(@RequestBody StudentDto studentDto);
+
     @PostMapping
     StudentDto insertStudent(StudentDto studentDto);
 
     @GetMapping("/all")
     List<StudentDto> findAll();
 
+
     @PatchMapping(consumes = "application/json-patch+json", path = "/{studentId}")
-    /*@RequestMapping(value = "/{studentId}",
-            method = RequestMethod.PATCH,
-            consumes = "application/json-patch+json")*/
     StudentDto patchJsonPatch(@PathVariable("studentId") Long studentId, @RequestBody List<JsonPatchDto> jsonPatchDto);
-
-    @PatchMapping
-    StudentDto patch(@RequestBody StudentDto studentDto);
-
 
 }
